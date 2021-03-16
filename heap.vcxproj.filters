@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="heap.cpp">
+    <ClCompile Include="src\heap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
