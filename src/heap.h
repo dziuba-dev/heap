@@ -6,17 +6,17 @@ class Heap
 {
 private:
     Node<ValueType>* root;
-    int size;
+    int heapSize;
     int height;
 
     int calculateHeapHeight(int size);
-    Node<ValueType>* insertValue(ValueType value, Node<ValueType>* node, int level);
+    Node<ValueType>* addNode(ValueType value, Node<ValueType>* node, int level);
     void rebuild(Node<ValueType>* node);
     void swapNodes(Node<ValueType>* node1, Node<ValueType>* node2);
     void deleteHeap(Node<ValueType>* node);
 
 protected:
-    bool virtual compare(Node<ValueType>* node, Node<ValueType>* toCompare) = 0;
+    bool virtual compare(Node<ValueType> node1, Node<ValueType> node2) = 0;
 
 public:
     Heap();
@@ -30,18 +30,19 @@ public:
 };
 
 template<class ValueType>
-Heap<ValueType>::Heap() : size(0), height(0), root(nullptr) {}
+Heap<ValueType>::Heap() : heapSize(0), height(0), root(nullptr) {}
 
 template<class ValueType>
 void Heap<ValueType>::insertValue(ValueType value) {
-    size++;
-    height = calculateHeapHeight(this->size);
-
     if (root == nullptr) {
+        heapSize = 1;
+        height = calculateHeapHeight(heapSize);
         root = new Node<ValueType>(value);
     }
     else {
-        Node<ValueType>* insertedNode = insertValue(value, root, 1);
+        heapSize++;
+        height = calculateHeapHeight(heapSize);
+        Node<ValueType>* insertedNode = addNode(value, root, 1);
         rebuild(insertedNode);
     }
 }
@@ -52,7 +53,7 @@ int Heap<ValueType>::calculateHeapHeight(int size) {
 }
 
 template<class ValueType>
-Node<ValueType>* Heap<ValueType>::insertValue(ValueType value, Node<ValueType>* node, int level){
+Node<ValueType>* Heap<ValueType>::addNode(ValueType value, Node<ValueType>* node, int level){
     if (level == height - 1 && (node->left == nullptr || node->right == nullptr)) {
         return new Node<ValueType>(value, node);
     }
@@ -60,10 +61,10 @@ Node<ValueType>* Heap<ValueType>::insertValue(ValueType value, Node<ValueType>* 
         return nullptr;
     }
 
-    Node<ValueType>* insertedNode = insertValue(value, node->left, level + 1);
+    Node<ValueType>* insertedNode = addNode(value, node->left, level + 1);
 
     if (insertedNode == nullptr) {
-        insertedNode = insertValue(value, node->right, level + 1);
+        insertedNode = addNode(value, node->right, level + 1);
     }
 
     return insertedNode;
@@ -74,7 +75,7 @@ void Heap<ValueType>::rebuild(Node<ValueType>* node) {
     Node<ValueType>* nodeTemp = node;
 
     while (nodeTemp->parent != nullptr) {
-        if (compare(nodeTemp, nodeTemp->parent)) {
+        if (compare(*nodeTemp, *(nodeTemp->parent))) {
             swapNodes(nodeTemp, nodeTemp->parent);
         }
         nodeTemp = nodeTemp->parent;
@@ -98,18 +99,17 @@ Heap<ValueType>::~Heap() {
 template<class ValueType>
 void Heap<ValueType>::deleteHeap(Node<ValueType>* node) {
     if (node->left == nullptr) {
-        node->parent = nullptr;
         delete node;
         return;
     }
 
     deleteHeap(node->left);
-    node->left = nullptr;
 
     if (node->right != nullptr) {
         deleteHeap(node->right);
-        node->right = nullptr;
     }
+
+    delete node;
 
     return;
 }

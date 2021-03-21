@@ -6,7 +6,7 @@ template<class ValueType>
 class MaxHeap : public Heap<ValueType> 
 {
 private:
-    bool compare(Node<ValueType>* node1, Node<ValueType>* node2);
+    bool compare(Node<ValueType> node1, Node<ValueType> node2);
 
 public:
     MaxHeap();
@@ -24,8 +24,8 @@ template<class ValueType>
 void MaxHeap<ValueType>::build(ValueType values[]) {}
 
 template<class ValueType>
-bool MaxHeap<ValueType>::compare(Node<ValueType>* node1, Node<ValueType>* node2) {
-    return node1->greaterThan(node2);
+bool MaxHeap<ValueType>::compare(Node<ValueType> node1, Node<ValueType> node2) {
+    return node1 > node2;
 }
 
 template<class ValueType>

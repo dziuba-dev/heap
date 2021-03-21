@@ -18,12 +18,19 @@ public:
 
     ValueType getValue();
     void setValue(ValueType newValue);
-    bool greaterThan(Node<ValueType>* node);
-    bool lessThan(Node<ValueType>* node);
+
+    bool operator>(Node<ValueType>& node) {
+        return value > node.value;
+    }
+
+    bool operator<(Node<ValueType>& node) {
+        return value < node.value;
+    }
 
     friend std::ostream& operator<<(std::ostream& stream, Node<ValueType>& node) {
         return (stream << node.value);
     };
+
     friend std::ostream& operator<<(std::ostream& stream, Node<ValueType>* node) {
         return (stream << node->value);
     };
@@ -59,13 +66,4 @@ ValueType Node<ValueType>::getValue() {
 template<class ValueType>
 void Node<ValueType>::setValue(ValueType newValue) {
     value = newValue;
-}
-template<class ValueType>
-bool Node<ValueType>::greaterThan(Node<ValueType>* node) {
-    return value > node->getValue();
-}
-
-template<class ValueType>
-bool Node<ValueType>::lessThan(Node<ValueType>* node) {
-    return value < node->getValue();
 }
