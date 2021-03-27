@@ -19,9 +19,18 @@ public:
     ValueType getValue();
     void setValue(ValueType newValue);
 
+    bool operator>(Node<ValueType>& node) {
+        return value > node.value;
+    }
+
+    bool operator<(Node<ValueType>& node) {
+        return value < node.value;
+    }
+
     friend std::ostream& operator<<(std::ostream& stream, Node<ValueType>& node) {
         return (stream << node.value);
     };
+
     friend std::ostream& operator<<(std::ostream& stream, Node<ValueType>* node) {
         return (stream << node->value);
     };
