@@ -14,6 +14,7 @@ private:
     void rebuild(Node<ValueType>* node);
     void swapNodes(Node<ValueType>* node1, Node<ValueType>* node2);
     void deleteHeap(Node<ValueType>* node);
+    void printHeap(Node<ValueType>* node);
 
 protected:
     bool virtual compare(Node<ValueType> node1, Node<ValueType> node2) = 0;
@@ -115,4 +116,21 @@ void Heap<ValueType>::deleteHeap(Node<ValueType>* node) {
 }
 
 template<class ValueType>
-void Heap<ValueType>::show() {}
+void Heap<ValueType>::show() {
+    printHeap(root);
+}
+
+template<class ValueType>
+void Heap<ValueType>::printHeap(Node<ValueType>* node) {
+    while (node != nullptr) {
+        cout << node->getValue() << endl;
+
+        if (node->left != nullptr) {
+            showHeap(node->left);
+        }
+
+        if (node->right != nullptr) {
+            showHeap(node->right);
+        }
+    }
+}
