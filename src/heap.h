@@ -8,7 +8,6 @@ class Heap
 private:
     Node<ValueType>* root;
     int heapSize;
-    int height;
     ValueType defaultValue;
 
     int calculateHeapHeight(int size);
@@ -34,18 +33,16 @@ public:
 };
 
 template<class ValueType>
-Heap<ValueType>::Heap() : heapSize(0), height(0), root(nullptr) {}
+Heap<ValueType>::Heap() : heapSize(0), root(nullptr) {}
 
 template<class ValueType>
 void Heap<ValueType>::insertValue(ValueType value) {
     if (root == nullptr) {
         heapSize = 1;
-        height = calculateHeapHeight(heapSize);
         root = new Node<ValueType>(value);
     }
     else {
         heapSize++;
-        height = calculateHeapHeight(heapSize);
         Node<ValueType>* insertedNode = addNode(value, root, 1);
         rebuild(insertedNode);
     }
@@ -58,6 +55,7 @@ int Heap<ValueType>::calculateHeapHeight(int size) {
 
 template<class ValueType>
 Node<ValueType>* Heap<ValueType>::addNode(ValueType value, Node<ValueType>* node, int level) {
+    int height = calculateHeapHeight(heapSize);
     if (level == height - 1 && (node->left == nullptr || node->right == nullptr)) {
         return new Node<ValueType>(value, node);
     }
@@ -117,6 +115,7 @@ void Heap<ValueType>::deleteHeap(Node<ValueType>* node) {
 
     return;
 }
+
 
 template<class ValueType>
 void Heap<ValueType>::show() {}
