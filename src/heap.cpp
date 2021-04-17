@@ -17,18 +17,25 @@ int main()
 	testHeap->insertValue(8);
 	testHeap->insertValue(9);
 	testHeap->insertValue(10);
+
+	for (int i = 0; i < 12; i++) {
+		cout << testHeap->extract() << endl;
+	}
+	cout << endl;
+
 	delete testHeap;
 
-	Heap<int>* testHeap1 = new MinHeap<int>;
-	testHeap1->insertValue(10);
-	testHeap1->insertValue(9);
-	testHeap1->insertValue(8);
-	testHeap1->insertValue(7);
-	testHeap1->insertValue(6);
-	testHeap1->insertValue(5);
-	testHeap1->insertValue(4);
-	testHeap1->insertValue(3);
-	testHeap1->insertValue(2);
-	testHeap1->insertValue(1);
+	Heap<string>* testHeap1 = new MinHeap<string>;
+	testHeap1->insertValue("lorem");
+	testHeap1->insertValue("ipsum");
+	testHeap1->insertValue("dolor");
+	testHeap1->insertValue("sit");
+	testHeap1->insertValue("amet");
+	testHeap1->insertValue("consectetur");
+	
+	for (int i = 0; i < 8; i++) {
+		cout << testHeap1->extract() << endl;
+	}
+	cout << endl;
 	delete testHeap1;
 }
