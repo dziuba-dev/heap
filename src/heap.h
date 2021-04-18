@@ -2,8 +2,7 @@
 #include "Node.h"
 #include <string>
 #include <windows.h>
-#include <string>
-#include <windows.h>
+#include <string> 
 
 template<class ValueType>
 class Heap
@@ -18,10 +17,10 @@ private:
     void rebuild(Node<ValueType>* node);
     void swapNodes(Node<ValueType>* node1, Node<ValueType>* node2);
     void deleteHeap(Node<ValueType>* node);
-    Node<ValueType>* findNodeByOrder(std::string orderNumber, Node<ValueType>* node);
-    void heapDown(Node<ValueType>* node);
     void showNode(Node<ValueType>* node, int level, int widthStart, int widthEnd, int maxNodeWidth);
     int maxValueWidth(Node<ValueType>* node);
+    Node<ValueType>* findNodeByOrder(std::string orderNumber, Node<ValueType>* node);
+    void heapDown(Node<ValueType>* node);
 
 protected:
     bool virtual compare(Node<ValueType> node1, Node<ValueType> node2) = 0;
@@ -176,8 +175,17 @@ void Heap<ValueType>::showNode(Node<ValueType>* node, int level, int widthStart,
 }
 
 template<class ValueType>
-void Heap<ValueType>::show() {}
-
+int Heap<ValueType>::maxValueWidth(Node<ValueType>* node) {
+    if (node != nullptr) {
+        int nodeWidth = valueWidth(node->getValue());
+        int leftWidth = maxValueWidth(node->left);
+        int rightWidth = maxValueWidth(node->right);
+        return max(nodeWidth, max(leftWidth, rightWidth));
+    }
+    else {
+        return 0;
+    }
+}
 
 std::string decimalToBinary(int number) {
     std::string binaryNumber = "";
@@ -190,7 +198,6 @@ std::string decimalToBinary(int number) {
     }
     return binaryNumber;
 }
-
 
 template<class ValueType>
 ValueType Heap<ValueType>::extract() {
@@ -261,17 +268,5 @@ void Heap<ValueType>::heapDown(Node<ValueType>* node) {
                 return;
             }
         }
-    }
-}
-
-int Heap<ValueType>::maxValueWidth(Node<ValueType>* node) {
-    if (node != nullptr) {
-        int nodeWidth = valueWidth(node->getValue());
-        int leftWidth = maxValueWidth(node->left);
-        int rightWidth = maxValueWidth(node->right);
-        return max(nodeWidth, max(leftWidth, rightWidth));
-    }
-    else {
-        return 0;
     }
 }
